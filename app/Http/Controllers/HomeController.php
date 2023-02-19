@@ -2,27 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Slider;
+use App\Models\About;
+use App\Models\Color;
+use App\Models\HeaderAndFooter;
+use App\Models\Service;
+use App\Models\WhatWeDo;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+
+    public function userDashboard()
     {
-        $this->middleware('auth');
+        $users = User::count();
+        return view('user.dashboard', compact('users'));
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+
+    public function welcome()
     {
-        return view('home');
+        return view('home.index');
     }
 }
