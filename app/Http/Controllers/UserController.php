@@ -11,13 +11,15 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::select('id', 'name', 'email')->get();
+            $data = User::select('id', 'name', 'email')
+                    ->with('roles')->get();
             return Datatables::of($data)->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="btn btn-primary btn-sm">View</a>';
-                    return $btn;
+                ->addColumn('role', function ($row) {
+                    return true;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('action', function ($row) {
+                    return true;
+                })
                 ->make(true);
         }
 

@@ -1,14 +1,6 @@
 @extends('layouts.app')
 
 @section('head')
-{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
-<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script> --}}
 <style>
 
 </style>
@@ -23,11 +15,13 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered user_datatable">
+                    <table class="table table-bordered user_datatable w-100">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Role</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -48,12 +42,45 @@
             serverSide: true,
             ajax: "{{ route('user.index') }}",
             columns: [
+                {
+                    render: function (data, type, row) {
+                        return row.id;
+                    },
+                    targets: 0,
+                },
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
-                {data: 'action', name: 'action'},
+                {
+                    render: function (data, type, row) {
+                        let role = "Not Set";
+                        if(row.roles[0]){
+                            role = row.roles[0].name;
+                        }
+                        return role;
+                    },
+                    targets: 0,
+                },
+                {
+                    render: function (data, type, row) {
+                        return getBtns(data, type, row);
+                    },
+                    targets: 0,
+                },
             ]
         });
       });
+
+
+      function getBtns(data, type, row){
+        let btns = `
+            <div class="btn-group">
+                <a href="user/${row.id}/view" class="btn btn-sm btn-outline-success"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                <a href="user/${row.id}/view" class="btn btn-sm btn-outline-info"><i class="fa fa-pen" aria-hidden="true"></i></a>
+                <a href="user/${row.id}/view" class="btn btn-sm btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </div>
+        `;
+        return btns;
+      }
     </script>
 @endpush
 
