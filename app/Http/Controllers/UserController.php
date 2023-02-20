@@ -26,4 +26,12 @@ class UserController extends Controller
         return view('user.index');
     }
 
+
+    public function view($id){
+        $user = User::select('id', 'name', 'email')
+            ->where('id', $id)
+            ->with('roles')->first();
+        return view('user.view', compact('user'));
+    }
+
 }

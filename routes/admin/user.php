@@ -10,6 +10,6 @@ Route::prefix('user/')
     ->name('user.')
     ->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::get('/user_list', [UserController::class, 'user_list'])->name('user_list');
+        Route::get('{id}/view', [UserController::class, 'view'])->name('view');
     });
 
