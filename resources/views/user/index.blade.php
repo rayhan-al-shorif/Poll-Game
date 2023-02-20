@@ -44,7 +44,7 @@
             columns: [
                 {
                     render: function (data, type, row) {
-                        return row.id;
+                        return row.DT_RowIndex;
                     },
                     targets: 0,
                 },
