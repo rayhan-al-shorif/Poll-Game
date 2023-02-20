@@ -11,5 +11,5 @@ Route::prefix('user/')
     ->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('{id}/view', [UserController::class, 'view'])->name('view');
+        Route::get('/create-or-update/{id?}', [UserController::class, 'createOrUpdateView'])->name('createOrUpdateView');
     });
-

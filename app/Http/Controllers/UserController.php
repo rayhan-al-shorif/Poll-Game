@@ -12,7 +12,7 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $data = User::select('id', 'name', 'email')
-                    ->with('roles')->get();
+                ->with('roles')->get();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('role', function ($row) {
                     return true;
@@ -27,11 +27,26 @@ class UserController extends Controller
     }
 
 
-    public function view($id){
+    public function view($id)
+    {
         $user = User::select('id', 'name', 'email')
             ->where('id', $id)
             ->with('roles')->first();
         return view('user.view', compact('user'));
     }
 
+    public function createOrUpdateView($id = null)
+    {
+        $title = "";
+        $user = "";
+        if ($id) {
+            $title = "Update User";
+            $user = User::select('id', 'name', 'email')
+                ->where('id', $id)
+                ->with('roles')->first();
+        } else {
+            $title = "Create a new user";
+        }
+        return view('user.createOrUpdate', compact('title', 'user'));
+    }
 }
